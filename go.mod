@@ -1,3 +1,3 @@
-module GROUPIE-TRACKER
+module dal
 
 go 1.18
