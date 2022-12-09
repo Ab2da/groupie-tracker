@@ -8,6 +8,14 @@ import (
 	"net/http"
 )
 
+const (
+	baseUrl           string = "https://groupietrackers.herokuapp.com/api"
+	artistsEndpoint   string = "/artists"
+	locationsEndpoint string = "/locations"
+	datesEndpoint     string = "/dates"
+	relationsEndpoint string = "/relations"
+)
+
 type Artist struct {
 	ID           int      `json:"id"`
 	Image        string   `json:"image"`
@@ -61,10 +69,7 @@ var Relations []Relation
 
 func GetArtistsData() {
 	//Open our json file
-	jsonMessage, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-	if err != nil {
-		log.Fatal(error(err))
-	}
+	jsonMessage := getData(artistsEndpoint)
 	//defer jsonFile.Close()
 	//this converts the json file to []bytes
 	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
@@ -84,13 +89,11 @@ func GetArtistsData() {
 
 func getLocationsData() {
 	//Open our json file
-	jsonMessage, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
-	if err != nil {
-		log.Fatal(error(err))
-	}
+	jsonMessage := getData("/locations")
 	//defer jsonMessage.Close()
 	//this converts the json file to []bytes
-	jsonData, err := ioutil.ReadAll(jsonMessage.Body)if err != nil {
+	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
+	if err != nil {
 		log.Fatal(error(err))
 	}
 
@@ -102,16 +105,21 @@ func getLocationsData() {
 
 func getDatesData() {
 	//Open our json file
-	jsonMessage, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
-	if err != nil {
-		log.Fatal(error(err))
-	}
+	jsonMessage := getData("/dates")
 
 	//this converts the json file to []bytes
 	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
 
-	if err := json.Unmarshal(jsonData, &Dates); err != nil {
+	if err != nil {
+		log.Fatal(err.Error())
 	}
+
+	err = json.Unmarshal(jsonData, &Dates)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	fmt.Println(Dates)
 }
 
@@ -119,15 +127,23 @@ func getRelationsData() {
 	//Open our json file
 	jsonMessage, err := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 	if err != nil {
-		log.Fatal(error(err))
+		log.Fatal(err.Error())
 	}
 
 	//this converts the json file to []bytes
 	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
 
 	if err := json.Unmarshal(jsonData, &Relations); err != nil {
-		log.Fatal(error(err))
+		log.Fatal(err.Error())
 	}
 	fmt.Println(Relations)
 
+}
+
+func getData(endpoint string) *http.Response {
+	jsonMessage, err := http.Get(baseUrl + endpoint)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	return jsonMessage
 }
