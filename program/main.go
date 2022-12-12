@@ -1,6 +1,7 @@
 package main
 
 import (
+	//why did we do it in this format
 	"deedee/groupie-tracker/dal"
 	"fmt"
 	"html/template"
@@ -13,6 +14,7 @@ type PageModel struct {
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
+	//why do we need titles?
 	var p PageModel = PageModel{Title: "Home"}
 	log.Printf("Welcome to the Home Page! :D!")
 	fmt.Println("Endpoint Hit:homePage")
@@ -42,7 +44,7 @@ func setupServer() {
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", fs))
 	mux.HandleFunc("/", homePage)
 	mux.HandleFunc("/events", events)
-	err := http.ListenAndServe(":9999", mux)
+	err := http.ListenAndServe(":1000", mux)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
