@@ -16,7 +16,7 @@ type PageModel struct {
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	var p PageModel = PageModel{Title: "Home"}
+	var p PageModel = PageModel{Artists: dal.GetArtists()}
 	log.Printf("Welcome to the Home Page! :D!")
 	fmt.Println("Endpoint Hit:homePage")
 	t, err := template.ParseFiles("./wwwroot/MainLayout.html")
@@ -44,7 +44,6 @@ func setupServer() {
 	fs := http.FileServer(http.Dir("wwwroot"))
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", fs))
 	mux.HandleFunc("/", homePage)
-	mux.HandleFunc("/events", events)
 	err := http.ListenAndServe(":9999", mux)
 	if err != nil {
 		log.Fatal(err.Error())
