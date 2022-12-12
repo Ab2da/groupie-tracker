@@ -13,7 +13,12 @@ body {
 }
 
 main {
-    padding: 40px;
+    margin-top: 40px; 
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    text-align: center;
+    width: 75%;
 }
 
 ul {
@@ -47,9 +52,8 @@ a:hover {
 }
 
 .card {
-    margin-left: 5px;
-    margin-right: 5px;
-    float: left;
+    display: inline-block;
+    margin: 10px 10px;
     width: 250px;
     padding-top: 5px;
     background-color: white;
@@ -63,10 +67,10 @@ a:hover {
 
 .card-image {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     width: 240;
     height: 240;
+    padding-bottom: 2px;
     border-bottom: 2px inset purple;
 }
 
