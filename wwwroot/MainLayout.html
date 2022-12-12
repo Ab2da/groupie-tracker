@@ -18,8 +18,17 @@
         </div>
         <main>
             <div>
-                <!-- <h1>{{.Title}}</h1> -->
-                <a href="https://google.com">
+                {{range .Artists}}
+                <a href="#">
+                    <div class="card" clear="inline-end">
+                        <img class="card-image" src={{.Image}} />
+                        <div class="card-title">
+                            <h3>{{.Name}}<h3>
+                        </div>
+                    </div>
+                </a>
+                {{end}}
+                <!-- <a href="#">
                     <div class="card">
                         <img class="card-image" src="https://groupietrackers.herokuapp.com/api/images/soja.jpeg" />
                         <div class="card-title">
@@ -27,14 +36,14 @@
                         </div>
                     </div>
                 </a>
-                <a href="https://google.com">
+                <a href="#">
                     <div class="card">
                         <img class="card-image" src="https://groupietrackers.herokuapp.com/api/images/queen.jpeg" />
                         <div class="card-title">
                             <h3>Queen<h3>
                         </div>
                     </div>
-                </a>
+                </a> -->
             </div>
         </main>
     </body>
