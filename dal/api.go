@@ -24,12 +24,11 @@ const (
 )
 
 // Encapsulate the API call (through http.Get),
-// reading the response body,
-// and unmarshalling the JSON,
+// reading the response body,JSON,
 // into one function!
 // Now you can simply replace the url and the pointer arguments
 // with the specific API endpoint and the correct Go DTM
-func getData(url string, ptr any) any {
+func getData(url string, ptr interface{}) interface{}
 	jsonMessage, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -57,65 +56,22 @@ func GetArtists() []ArtistDTM {
 	return artists
 }
 
-// func getLocationsData() {
-// 	jsonMessage := getData(locationsEndpoint)
+func GetRelation (url string)RelationDTM{
+var r RelationDTM
+getData(url, &r)
 
-// 	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
-// 	if err != nil {
-// 		log.Fatal(error(err))
-// 	}
+if err != nil {
+	log.error(error(err))
+}
+RelationEditor(r)
+return r
 
-// 	err = json.Unmarshal(jsonData, &Locations)
+}
 
-// 	if err != nil {
-// 		log.Fatal(error(err))
-// 	}
-
-// 	fmt.Println(Locations)
-// }
-
-// func getDatesData() {
-// 	jsonMessage := getData(datesEndpoint)
-
-// 	//this converts the json file to []bytes
-// 	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
-
-// 	if err != nil {
-// 		log.Fatal(err.Error())
-// 	}
-
-// 	err = json.Unmarshal(jsonData, &Dates)
-
-// 	if err != nil {
-// 		log.Fatal(err.Error())
-// 	}
-
-// 	fmt.Println(Dates)
-// }
-
-// func getRelationsData() []core.Relation {
-// 	var relations []core.Relation
-// 	jsonMessage := getData(relationsEndpoint)
-
-// 	//this converts the json file to []bytes
-// 	jsonData, err := ioutil.ReadAll(jsonMessage.Body)
-// 	if err != nil {
-// 		log.Fatal(err.Error())
-// 	}
-
-// 	err = json.Unmarshal(jsonData, &relations)
-
-// 	if err != nil {
-// 		log.Fatal(err.Error())
-// 	}
-// 	// fmt.Println(Relations)
-// 	return relations
-// }
-
-// func getData(endpoint string) *http.Response {
-// 	jsonMessage, err := http.Get(baseUrl + endpoint)
-// 	if err != nil {
-// 		log.Fatal(err.Error())
-// 	}
-// 	return jsonMessage
-// }
+func RelationEditor(r RelationDTM)map[string][]string{
+	//make a map and for loops to print out the data
+	newMap := make(map[string][]string)
+	for k, v := range r.Dateslocations {
+		return (k,v)
+	} 
+}
