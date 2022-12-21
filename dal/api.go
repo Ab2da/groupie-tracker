@@ -67,6 +67,16 @@ func GetDates(artists []ArtistDTM) []DateDTM {
 	return dates
 }
 
+func GetLocations(artists []ArtistDTM) []LocationDTM {
+	var locations []LocationDTM
+	for _, v := range artists {
+		var url string = v.Locations
+		var l LocationDTM
+		getData(url, &l)
+		locations = append(locations, l)
+	}
+}
+
 // func GetRelations() map[string][]string {
 // 	var r map[string][]RelationDTM
 // 	var url = baseUrl + relationsEndpoint
