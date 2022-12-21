@@ -28,7 +28,7 @@ const (
 // into one function!
 // Now you can simply replace the url and the pointer arguments
 // with the specific API endpoint and the correct Go DTM
-func getData(url string, ptr interface{}) interface{}
+func getData(url string, ptr any) any {
 	jsonMessage, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -56,22 +56,30 @@ func GetArtists() []ArtistDTM {
 	return artists
 }
 
-func GetRelation (url string)RelationDTM{
-var r RelationDTM
-getData(url, &r)
-
-if err != nil {
-	log.error(error(err))
+func GetDates(artists []ArtistDTM) []DateDTM {
+	var dates []DateDTM
+	for _, v := range artists {
+		var url string = v.ConcertDates
+		var d DateDTM
+		getData(url, &d)
+		dates = append(dates, d)
+	}
+	return dates
 }
-RelationEditor(r)
-return r
 
-}
+// func GetRelations() map[string][]string {
+// 	var r map[string][]RelationDTM
+// 	var url = baseUrl + relationsEndpoint
+// 	getData(url, &r)
+// 	m := RelationEditor(r["index"][0])
+// 	return m
+// }
 
-func RelationEditor(r RelationDTM)map[string][]string{
-	//make a map and for loops to print out the data
-	newMap := make(map[string][]string)
-	for k, v := range r.Dateslocations {
-		return (k,v)
-	} 
-}
+// func RelationEditor(r RelationDTM) map[string][]string {
+// 	//make a map and for loops to print out the data
+// 	newMap := make(map[string][]string)
+// 	for k, v := range r.DatesLocations {
+// 		newMap[k] = v
+// 	}
+// 	return newMap
+// }

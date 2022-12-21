@@ -18,7 +18,7 @@ type ArtistDTM struct {
 	Relations    string   `json:"relations"`
 }
 
-type RelationDTM struct {
-	Id             string              `json:"id"`
-	DatesLocations map[string][]string `json:"datesLocations"`
+type DateDTM struct {
+	Id    int      `json:"id"`
+	Dates []string `json:"dates"`
 }

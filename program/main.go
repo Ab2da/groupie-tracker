@@ -10,6 +10,7 @@ import (
 )
 
 var artists []dal.ArtistDTM
+var dates []dal.DateDTM
 
 type PageModel struct {
 	Artists []dal.ArtistDTM
@@ -52,6 +53,7 @@ func setupServer() {
 
 func init() {
 	artists = dal.GetArtists()
+	dates = dal.GetDates(artists)
 }
 
 // Right now, when you run the program, we are just
@@ -66,5 +68,13 @@ func main() {
 		}
 		fmt.Println()
 	}
+
+	for _, d := range dates {
+		fmt.Printf("ID: %d Dates:\n", d.Id)
+		for _, v := range d.Dates {
+			fmt.Println(v)
+		}
+	}
+
 	setupServer()
 }
