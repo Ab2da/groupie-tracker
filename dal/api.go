@@ -73,8 +73,9 @@ func GetLocations(artists []ArtistDTM) []LocationDTM {
 		var url string = v.Locations
 		var l LocationDTM
 		getData(url, &l)
-		locations = append(locations, l)
+		locations = append(locations, l) //copy of value of l, thats why you can redeclare l for each loop. tat variable is local only to the loop its in. 
 	}
+	return locations
 }
 
 // func GetRelations() map[string][]string {

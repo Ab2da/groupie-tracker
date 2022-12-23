@@ -12,6 +12,22 @@ import (
 var artists []dal.ArtistDTM
 var dates []dal.DateDTM
 
+type Band struct {
+	Image string
+	Name  string
+}
+
+type Info struct {
+	Members      []string
+	CreationDate int
+	FirstAlbum   string
+}
+
+type Event struct {
+	Location string
+	Date     []string
+}
+
 type PageModel struct {
 	Artists []dal.ArtistDTM
 }
@@ -70,11 +86,20 @@ func main() {
 	}
 
 	for _, d := range dates {
-		fmt.Printf("ID: %d Dates:\n", d.Id)
+		fmt.Printf("ID: %d Dates:\n", d.ID)
 		for _, v := range d.Dates {
 			fmt.Println(v)
 		}
 	}
 
 	setupServer()
+}
+// bridge between the DTM and display model (the structs are a model for your eventual display)
+func ArtistDTMsToBands(artists []dal.ArtistDTM) []Band {
+	var bands []Band
+	for _, artist := range artists {
+		var b Band = Band{Name: artist.Name, Image: artist.Image}
+		bands = append(bands, b)
+	}
+	return bands
 }
