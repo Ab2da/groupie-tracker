@@ -25,7 +25,7 @@ type Info struct {
 
 type Event struct {
 	Location string
-	Date     []string
+	Dates     []string
 }
 
 type PageModel struct {
@@ -102,4 +102,27 @@ func ArtistDTMsToBands(artists []dal.ArtistDTM) []Band {
 		bands = append(bands, b)
 	}
 	return bands
+}
+
+func ArtistDTMsToInfo(artists []dal.ArtistDTM) []Info {
+	var info []Info
+	for _,v := range artists{
+	var i Info = Info{Members: v.Members, CreationDate:v.CreationDate, FirstAlbum:v.FirstAlbum}
+	info = append(info,i)
+	}
+	return info
+}
+
+func ArtistDTMsToEvent(artists []dal.ArtistDTM) []Event {
+    var event []Event
+	for _, v := range artists{
+		for _, d := range dates {
+			if d.ID == v.ID {
+				var gig Event = Event {Location: v.Locations, Dates: d.Dates}
+				event = append(event, gig)
+				break
+			}
+		}
+	}
+	return event
 }
