@@ -18,23 +18,25 @@ type ArtistDTM struct {
 	Relations    string   `json:"relations"`
 }
 
-type DateDTM struct {
-	ID    int      `json:"id"`
-	Dates []string `json:"dates"`
-}
-
 type LocationDTM struct {
 	ID        int      `json:"id"`
 	Locations []string `json:"locations"`
 	Dates     string   `json:"dates"`
 }
 
+type DateDTM struct {
+	ID    int      `json:"id"`
+	Dates []string `json:"dates"`
+}
+
 type Index struct {
-	Index []RelationDTM
+	ID             int                 `json:"id"`
+	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
 type RelationDTM struct {
-	Index
-	ID             int                 `json:"id"`
-	DatesLocations map[string][]string `json:"datesLocations"`
+	//	Index
+	ID        int      `json:"id"`
+	Dates     []string `json:"dates"`
+	Locations string   `json:"datesLocations"`
 }

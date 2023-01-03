@@ -1,7 +1,6 @@
 package main
 
 import (
-	//why did we do it in this format
 	"deedee/groupie-tracker/dal"
 	"fmt"
 	"html/template"
@@ -10,8 +9,9 @@ import (
 )
 
 var artists []dal.ArtistDTM
-var dates []dal.DateDTM
 
+//var dates []dal.DateDTM
+//structs for the display model
 type Band struct {
 	Image string
 	Name  string
@@ -25,7 +25,7 @@ type Info struct {
 
 type Event struct {
 	Location string
-	Dates     []string
+	Dates    []string
 }
 
 type PageModel struct {
@@ -44,18 +44,6 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	// dal.GetArtistsData()
 }
 
-// func events(w http.ResponseWriter, r *http.Request) {
-// 	var p PageModel = PageModel{Artists: artists}
-// 	log.Printf("Welcome to the Home Page! :D!")
-// 	fmt.Println("Endpoint Hit:homePage")
-// 	t, err := template.ParseFiles("./wwwroot/MainLayout.html")
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 	}
-// 	t.Execute(w, p)
-// 	// dal.GetArtistsData()
-// }
-
 func setupServer() {
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("wwwroot"))
@@ -69,7 +57,7 @@ func setupServer() {
 
 func init() {
 	artists = dal.GetArtists()
-	dates = dal.GetDates(artists)
+	//dates = dal.GetDates(artists)
 }
 
 // Right now, when you run the program, we are just
@@ -85,15 +73,16 @@ func main() {
 		fmt.Println()
 	}
 
-	for _, d := range dates {
-		fmt.Printf("ID: %d Dates:\n", d.ID)
-		for _, v := range d.Dates {
-			fmt.Println(v)
-		}
-	}
+	// for _, d := range dates {
+	// 	fmt.Printf("ID: %d Dates:\n", d.ID)
+	// 	for _, v := range d.Dates {
+	// 		fmt.Println(v)
+	// 	}
+	// }
 
 	setupServer()
 }
+
 // bridge between the DTM and display model (the structs are a model for your eventual display)
 func ArtistDTMsToBands(artists []dal.ArtistDTM) []Band {
 	var bands []Band
@@ -106,23 +95,23 @@ func ArtistDTMsToBands(artists []dal.ArtistDTM) []Band {
 
 func ArtistDTMsToInfo(artists []dal.ArtistDTM) []Info {
 	var info []Info
-	for _,v := range artists{
-	var i Info = Info{Members: v.Members, CreationDate:v.CreationDate, FirstAlbum:v.FirstAlbum}
-	info = append(info,i)
+	for _, v := range artists {
+		var i Info = Info{Members: v.Members, CreationDate: v.CreationDate, FirstAlbum: v.FirstAlbum}
+		info = append(info, i)
 	}
 	return info
 }
 
-func ArtistDTMsToEvent(artists []dal.ArtistDTM) []Event {
-    var event []Event
-	for _, v := range artists{
-		for _, d := range dates {
-			if d.ID == v.ID {
-				var gig Event = Event {Location: v.Locations, Dates: d.Dates}
-				event = append(event, gig)
-				break
-			}
-		}
-	}
-	return event
-}
+// func ArtistDTMsToEvent(artists []dal.ArtistDTM) []Event {
+// 	var event []Event
+// 	for _, v := range artists {
+// 		for _, d := range dates {
+// 			if d.ID == v.ID {
+// 				var gig Event = Event{Location: v.Locations, Dates: d.Dates}
+// 				event = append(event, gig)
+// 				break
+// 			}
+// 		}
+// 	}
+// 	return event
+// }

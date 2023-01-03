@@ -53,6 +53,7 @@ func GetArtists() []ArtistDTM {
 	var artists []ArtistDTM
 	var url string = baseUrl + artistsEndpoint
 	getData(url, &artists)
+
 	return artists
 }
 
@@ -73,24 +74,24 @@ func GetLocations(artists []ArtistDTM) []LocationDTM {
 		var url string = v.Locations
 		var l LocationDTM
 		getData(url, &l)
-		locations = append(locations, l) //copy of value of l, thats why you can redeclare l for each loop. tat variable is local only to the loop its in. 
+		locations = append(locations, l) //copy of value of l, thats why you can redeclare l for each loop. tat variable is local only to the loop its in.
 	}
 	return locations
 }
 
-// func GetRelations() map[string][]string {
-// 	var r map[string][]RelationDTM
-// 	var url = baseUrl + relationsEndpoint
-// 	getData(url, &r)
-// 	m := RelationEditor(r["index"][0])
-// 	return m
-// }
+func GetRelations() map[string][]string {
+	var r map[string][]RelationDTM
+	var url = baseUrl + relationsEndpoint
+	getData(url, &r)
+	m := RelationEditor(r["index"][0])
+	return m
+}
 
-// func RelationEditor(r RelationDTM) map[string][]string {
-// 	//make a map and for loops to print out the data
-// 	newMap := make(map[string][]string)
-// 	for k, v := range r.DatesLocations {
-// 		newMap[k] = v
-// 	}
-// 	return newMap
-// }
+func RelationEditor(r RelationDTM) map[string][]string {
+	//make a map and for loops to print out the data
+	newMap := make(map[string][]string)
+	for k, v := range r.DatesLocations {
+		newMap[k] = v
+	}
+	return newMap
+}
