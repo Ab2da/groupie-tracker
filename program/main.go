@@ -46,8 +46,22 @@ type ArtistCardVM struct {
 	Name  string
 }
 
+func BuildArtistCardVM(a dal.ArtistDTM) ArtistCardVM {
+	cardVM := ArtistCardVM{Image: a.Image, Name: a.Name}
+	return cardVM
+}
+
+func BuildAllArtistCardVMs(dtms []dal.ArtistDTM) []ArtistCardVM {
+	var result []ArtistCardVM
+	for _, a := range dtms {
+		artist := BuildArtistCardVM(a)
+		result = append(result, artist)
+	}
+	return result
+}
+
 func homePage(w http.ResponseWriter, r *http.Request) {
-	var p PageModel = PageModel{Artists: dal.GetArtists()}
+	var p PageModel = PageModel{Artists: BuildAllArtistCardVMs(artists)}
 	log.Printf("Welcome to the Home Page! :D!")
 	fmt.Println("Endpoint Hit:homePage")
 	t, err := template.ParseFiles("./wwwroot/MainLayout.html")
@@ -77,23 +91,31 @@ func init() {
 // Right now, when you run the program, we are just
 // getting a list of artists with our DAL (data access layer)
 // functions, and printing out the name and members of each
-func main() {
-	for _, a := range artists {
-		fmt.Println(a.Name)
-		fmt.Println(a.ConcertDates)
-		// fmt.Printf("\nMembers:\n")
-		// for _, m := range a.Members {
-		// 	fmt.Println(m)
-		// }
-		// fmt.Println()
-	}
 
-	for _, d := range dates {
-		fmt.Printf("ID: %d Dates:\n", d.ID)
-		for _, v := range d.Dates {
-			fmt.Println(v)
-		}
-	}
+func Double(x int) {
+	x *= 2
+}
+
+func main() {
+	var x int = 5
+	Double(x)
+	fmt.Println(x)
+	// for _, a := range artists {
+	// 	fmt.Println(a.Name)
+	// 	fmt.Println(a.ConcertDates)
+	// 	// fmt.Printf("\nMembers:\n")
+	// 	// for _, m := range a.Members {
+	// 	// 	fmt.Println(m)
+	// 	// }
+	// 	// fmt.Println()
+	// }
+
+	// for _, d := range dates {
+	// 	fmt.Printf("ID: %d Dates:\n", d.ID)
+	// 	for _, v := range d.Dates {
+	// 		fmt.Println(v)
+	// 	}
+	// }
 
 	setupServer()
 }
