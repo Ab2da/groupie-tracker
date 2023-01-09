@@ -29,10 +29,10 @@ type ArtistDTM struct {
 // type DateIndexDTM struct {
 // 	Index []DateDTM `json:"index"`
 // }
-// type DateDTM struct {
-// 	ID    int      `json:"id"`
-// 	Dates []string `json:"dates"`
-// }
+type DateDTM struct {
+	ID    int      `json:"id"`
+	Dates []string `json:"dates"`
+}
 
 // type RelationIndex struct {
 // 	Index []RelationDTM `json:"index"`

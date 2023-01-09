@@ -9,10 +9,10 @@ import (
 )
 
 var artists []dal.ArtistDTM
-var dates []dal.DateIndexDTM
+var dates []dal.DateDTM
 
-//var dates []dal.DateDTM
-//structs for the display model
+// var dates []dal.DateDTM
+// structs for the display model
 type Band struct {
 	Image string
 	Name  string
@@ -30,7 +30,20 @@ type Event struct {
 }
 
 type PageModel struct {
-	Artists []dal.ArtistDTM
+	Artists []ArtistCardVM
+}
+
+type ArtistVM struct {
+	Image        string
+	Name         string
+	Members      []string
+	CreationDate int
+	FirstAlbum   string
+}
+
+type ArtistCardVM struct {
+	Image string
+	Name  string
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -67,19 +80,20 @@ func init() {
 func main() {
 	for _, a := range artists {
 		fmt.Println(a.Name)
-		fmt.Printf("\nMembers:\n")
-		for _, m := range a.Members {
-			fmt.Println(m)
-		}
-		fmt.Println()
+		fmt.Println(a.ConcertDates)
+		// fmt.Printf("\nMembers:\n")
+		// for _, m := range a.Members {
+		// 	fmt.Println(m)
+		// }
+		// fmt.Println()
 	}
 
-	// for _, d := range dates {
-	// 	fmt.Printf("ID: %d Dates:\n", d.ID)
-	// 	for _, v := range d.Dates {
-	// 		fmt.Println(v)
-	// 	}
-	// }
+	for _, d := range dates {
+		fmt.Printf("ID: %d Dates:\n", d.ID)
+		for _, v := range d.Dates {
+			fmt.Println(v)
+		}
+	}
 
 	setupServer()
 }

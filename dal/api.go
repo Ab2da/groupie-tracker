@@ -58,11 +58,11 @@ func GetArtists() []ArtistDTM {
 
 }
 
-func GetDates(artists []ArtistDTM) []DateIndexDTM {
-	var dates []DateIndexDTM
+func GetDates(artists []ArtistDTM) []DateDTM {
+	var dates []DateDTM
 	for _, v := range artists {
 		var url string = v.ConcertDates
-		var d DateIndexDTM
+		var d DateDTM
 		getData(url, &d)
 		dates = append(dates, d)
 	}
