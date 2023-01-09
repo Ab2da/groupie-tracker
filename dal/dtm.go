@@ -18,25 +18,49 @@ type ArtistDTM struct {
 	Relations    string   `json:"relations"`
 }
 
-type LocationDTM struct {
-	ID        int      `json:"id"`
-	Locations []string `json:"locations"`
-	Dates     string   `json:"dates"`
+// type indexLocation struct {
+// 	Index []LocationDTM `json:"index"`
+// }
+// type LocationDTM struct {
+// 	ID        int      `json:"id"`
+// 	Locations []string `json:"locations"`
+// 	Dates     string   `json:"dates"`
+// }
+// type DateIndexDTM struct {
+// 	Index []DateDTM `json:"index"`
+// }
+// type DateDTM struct {
+// 	ID    int      `json:"id"`
+// 	Dates []string `json:"dates"`
+// }
+
+// type RelationIndex struct {
+// 	Index []RelationDTM `json:"index"`
+// }
+
+// type RelationDTM struct {
+// 	ID             int                 `json:"id"`
+// 	DatesLocations map[string][]string `json:"datesLocations`
+// }
+
+type DateIndexDTM struct {
+	Index []struct {
+		ID    int      `json:"id"`
+		Dates []string `json:"dates"`
+	} `json:"index"`
 }
 
-type DateDTM struct {
-	ID    int      `json:"id"`
-	Dates []string `json:"dates"`
+type LocationIndexDTM struct {
+	Index []struct {
+		ID        int      `json:"id"`
+		Locations []string `json:"locations"`
+		//we don't need the dates url field
+	}
 }
 
-type Index struct {
-	ID             int                 `json:"id"`
-	DatesLocations map[string][]string `json:"datesLocations"`
-}
-
-type RelationDTM struct {
-	//	Index
-	ID        int      `json:"id"`
-	Dates     []string `json:"dates"`
-	Locations string   `json:"datesLocations"`
+type RelationIndexDTM struct {
+	Index []struct {
+		ID             int                 `json:"id"`
+		DatesLocations map[string][]string `json:"datesLocations"`
+	}
 }

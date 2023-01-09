@@ -28,6 +28,7 @@ const (
 // into one function!
 // Now you can simply replace the url and the pointer arguments
 // with the specific API endpoint and the correct Go DTM
+
 func getData(url string, ptr any) any {
 	jsonMessage, err := http.Get(url)
 	if err != nil {
@@ -53,45 +54,69 @@ func GetArtists() []ArtistDTM {
 	var artists []ArtistDTM
 	var url string = baseUrl + artistsEndpoint
 	getData(url, &artists)
-
 	return artists
+
 }
 
-func GetDates(artists []ArtistDTM) []DateDTM {
-	var dates []DateDTM
+func GetDates(artists []ArtistDTM) []DateIndexDTM {
+	var dates []DateIndexDTM
 	for _, v := range artists {
 		var url string = v.ConcertDates
-		var d DateDTM
+		var d DateIndexDTM
 		getData(url, &d)
 		dates = append(dates, d)
 	}
 	return dates
 }
 
-func GetLocations(artists []ArtistDTM) []LocationDTM {
-	var locations []LocationDTM
+// func GetLocations(artists []ArtistDTM) []LocationIndexDTM {
+// 	var locations []LocationIndexDTM
+// 	for _, v := range artists {
+// 		var url string = v.Locations
+// 		var l LocationIndexDTM
+// 		getData(url, &l)
+// 		locations = append(locations, l)
+// 		//copy of value of l, thats why you can redeclare l for each loop.
+// 		//That variable is local only to the loop its in.
+// 	}
+// 	fmt.Println(locations)
+// 	return locations
+// }
+
+// func GetRelations() map[string][]string {
+// 	var r map[string][]RelationIndexDTM
+// 	var url = baseUrl + relationsEndpoint
+// 	getData(url, &r)
+// 	m := RelationEditor(r["index"][0])
+// 	return m
+// }
+
+func GetRelations(artists []ArtistDTM) []RelationIndexDTM {
+	var relations []RelationIndexDTM
 	for _, v := range artists {
-		var url string = v.Locations
-		var l LocationDTM
-		getData(url, &l)
-		locations = append(locations, l) //copy of value of l, thats why you can redeclare l for each loop. tat variable is local only to the loop its in.
+		var url string = v.Relations
+		var r RelationIndexDTM
+		getData(url, &r)
+		relations = append(relations, r)
 	}
-	return locations
+	return relations
+
 }
 
-func GetRelations() map[string][]string {
-	var r map[string][]RelationDTM
-	var url = baseUrl + relationsEndpoint
-	getData(url, &r)
-	m := RelationEditor(r["index"][0])
-	return m
-}
+/*
+1. We create a new map called newMap.
+2. We loop through the locations in the RelationDTM.
+3. We create a new key and value pair in the newMap.
+4. We return the newMap.
+*/
+// func RelationEditor(r RelationDTM) map[string][]string {
+// 	//make a map and for loops to print out the data
+// 	newMap := make(map[string][]string)
 
-func RelationEditor(r RelationDTM) map[string][]string {
-	//make a map and for loops to print out the data
-	newMap := make(map[string][]string)
-	for k, v := range r.DatesLocations {
-		newMap[k] = v
-	}
-	return newMap
-}
+// 	for k, v := range r.Locations {
+// 		var k string
+// 		var v string
+// 		newMap[k] = k
+// 	}
+// 	return newMap
+// }
