@@ -9,6 +9,7 @@ import (
 )
 
 var artists []dal.ArtistDTM
+var dates []dal.DateIndexDTM
 
 //var dates []dal.DateDTM
 //structs for the display model
@@ -57,7 +58,7 @@ func setupServer() {
 
 func init() {
 	artists = dal.GetArtists()
-	//dates = dal.GetDates(artists)
+	dates = dal.GetDates(artists)
 }
 
 // Right now, when you run the program, we are just
