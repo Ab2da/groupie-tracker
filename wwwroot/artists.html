@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta lang="en" charset="utf-8" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Saira&display=swap" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="wwwroot/css/site.css" />
+        <title>Groupie Tracker - {{.Name}}</title>
+    <body>
+        <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/events">Events</a></li>
+            </ul>
+        </div>
+        <h1>{{.Name}}</h1>
+        <img src="{{.Image}}" />
+        <!-- <p>
+            {{.FirstAlbum}}
+        </p> -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Members</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Members}}
+                    <tr>
+                        <td>{{.}}</td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+        {{range $key, $value := .DatesLocations}}
+        <h3>{{$key}}</h3>
+        {{range $v := $value}}
+        <p>{{$v}}</p>
+        {{end}}
+        {{end}}
+    </body>
+</html>

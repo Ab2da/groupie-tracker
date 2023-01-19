@@ -30,11 +30,12 @@ const (
 // with the specific API endpoint and the correct Go DTM
 
 func getData(url string, ptr any) any {
-	jsonMessage, err := http.Get(url)
+	response, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	jsonBody, err := ioutil.ReadAll(jsonMessage.Body)
+	defer response.Body.Close()
+	jsonBody, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -50,6 +51,7 @@ func getData(url string, ptr any) any {
 // Groupie-Tracker API. It returns a slice of ArtistDTM
 // objects, which can then be taken by the UI (front-end)
 // for display purposes
+
 func GetArtists() []ArtistDTM {
 	var artists []ArtistDTM
 	var url string = baseUrl + artistsEndpoint
@@ -69,38 +71,15 @@ func GetDates(artists []ArtistDTM) []DateDTM {
 	return dates
 }
 
-// func GetLocations(artists []ArtistDTM) []LocationIndexDTM {
-// 	var locations []LocationIndexDTM
-// 	for _, v := range artists {
-// 		var url string = v.Locations
-// 		var l LocationIndexDTM
-// 		getData(url, &l)
-// 		locations = append(locations, l)
-// 		//copy of value of l, thats why you can redeclare l for each loop.
-// 		//That variable is local only to the loop its in.
-// 	}
-// 	fmt.Println(locations)
-// 	return locations
-// }
-
-// func GetRelations() map[string][]string {
-// 	var r map[string][]RelationIndexDTM
-// 	var url = baseUrl + relationsEndpoint
-// 	getData(url, &r)
-// 	m := RelationEditor(r["index"][0])
-// 	return m
-// }
-
-func GetRelations(artists []ArtistDTM) []RelationIndexDTM {
-	var relations []RelationIndexDTM
+func GetRelations(artists []ArtistDTM) []RelationDTM {
+	var relations []RelationDTM
 	for _, v := range artists {
 		var url string = v.Relations
-		var r RelationIndexDTM
+		var r RelationDTM
 		getData(url, &r)
 		relations = append(relations, r)
 	}
 	return relations
-
 }
 
 /*
