@@ -77,7 +77,7 @@ func setupServer() {
 	fs := http.FileServer(http.Dir("wwwroot"))
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", fs))
 	mux.HandleFunc("/", homePage)
-	err := http.ListenAndServe(":9999", mux)
+	err := http.ListenAndServe(":9876", mux)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -88,18 +88,7 @@ func init() {
 	dates = dal.GetDates(artists)
 }
 
-// Right now, when you run the program, we are just
-// getting a list of artists with our DAL (data access layer)
-// functions, and printing out the name and members of each
-
-func Double(x int) {
-	x *= 2
-}
-
 func main() {
-	var x int = 5
-	Double(x)
-	fmt.Println(x)
 	// for _, a := range artists {
 	// 	fmt.Println(a.Name)
 	// 	fmt.Println(a.ConcertDates)
