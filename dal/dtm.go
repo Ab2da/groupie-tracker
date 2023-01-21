@@ -59,6 +59,6 @@ type LocationIndexDTM struct {
 }
 
 type RelationDTM struct {
-	ID             int                 `json: "id"`
-	DatesLocations map[string][]string `json: "datesLocations"`
+	ID             int                 `json:"id"`
+	DatesLocations map[string][]string `json:"datesLocations"`
 }
