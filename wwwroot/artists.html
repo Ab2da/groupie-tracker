@@ -8,37 +8,52 @@
         <link type="text/css" rel="stylesheet" href="wwwroot/css/site.css" />
         <title>Groupie Tracker - {{.Name}}</title>
     <body>
-    <div class="container">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/events">Events</a></li>
-        </ul>
-    </div>
-    <h1>{{.Name}}</h1>
-    <img src="{{.Image}}" />                        
-    
-    <!-- <p>
-        {{.FirstAlbum}}
-    </p> -->
-    <table>
-        <thead>
-            <tr>
-                <th>Members</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .Members}}
-                <tr>
-                    <td>{{.}}</td>
-                </tr>
-            {{end}}
-        </tbody>
-    </table>
-    {{range $key, $value := .DatesLocations}}
-    <h3>{{$key}}</h3>
-    {{range $v := $value}}
-    <p>{{$v}}</p>
-    {{end}}
-    {{end}}
+        <header>
+            <div>
+                <ul class="navbar">
+                    <li class="nav-item"><a href="/">Home</a></li>
+                    <li class="nav-item"><a href="/events">Events</a></li>
+                </ul>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <div class="card">
+                    <img class="card-image" src={{.Image}} />
+                    <div class="card-title">
+                        <h3>{{.Name}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container item">
+                <div>
+                    <h3>First Album</h3>
+                    <h1>{{.FirstAlbum}}</h1>
+                </div>
+            </div>
+            <div class="container item">
+                <div>
+                    <h3>Members</h3>
+                    {{range .Members}}
+                        <h1>{{.}}</h1>
+                    {{end}}
+                </div>
+            </div>
+            <div class="container item">
+                <div>
+                    <h3>Tour Dates</h3>
+                    {{range $key, $value := .DatesLocations}}
+                        <div>
+                            <h1>{{$key}}</h1>
+                            {{range $v := $value}}
+                                <h2>{{$v}}</h2>
+                            {{end}}
+                        </div>
+                    {{end}}
+                </div>
+                
+            </div>
+            
+        </main>
     </body>
 </html>

@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const port string = ":1234"
+const port string = ":8080"
 
 var artists []dal.ArtistDTM
 var relations []dal.RelationDTM

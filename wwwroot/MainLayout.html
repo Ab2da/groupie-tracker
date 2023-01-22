@@ -10,16 +10,16 @@
     </head>
     <body>
         <div>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/events">Events</a></li>
+            <ul class="navbar">
+                <li class="nav-item"><a href="/">Home</a></li>
+                <li class="nav-item"><a href="/events">Events</a></li>
             </ul>
         </div>
         <main>
             <div class="container">
                 {{range .Artists}}
                 <a href="/{{.Name}}">
-                    <div class="card" clear="inline-end">
+                    <div class="card">
                         <img class="card-image" src={{.Image}} />
                         <div class="card-title">
                             <h3>{{.Name}}<h3>
