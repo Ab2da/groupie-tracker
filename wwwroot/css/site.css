@@ -12,15 +12,6 @@ body {
     padding-top: 40px;
 }
 
-main {
-    margin-top: 40px; 
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    text-align: center;
-    width: 75%;
-}
-
 ul {
     list-style-type: none;
     position: fixed;
@@ -81,7 +72,11 @@ a:hover {
 }
 
 .container {
+    margin-top: 40px; 
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 75%;
 }
