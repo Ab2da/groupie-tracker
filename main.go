@@ -121,11 +121,11 @@ func setupServer() {
 	fs := http.FileServer(http.Dir("wwwroot"))
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", fs))
 	mux.HandleFunc("/", homePage)
+	log.Printf("Server listening on port %s...\n", port)
 	err := http.ListenAndServe(port, mux)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	log.Printf("Server listening on port %s...\n", port)
 }
 
 func init() {
