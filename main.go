@@ -2,9 +2,11 @@ package main
 
 import (
 	"deedee/groupie-tracker/dal"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -13,8 +15,8 @@ const port string = ":8080"
 var artists []dal.ArtistDTM
 var relations []dal.RelationDTM
 var artistRouteMap map[string]bool
-var artistPathModelMap map[string]ArtistVM
-var artistModels []ArtistVM
+var artistPathModelMap map[int]ArtistViewModel
+var artistModels []ArtistViewModel
 
 // var dates []dal.DateDTM
 // structs for the display model
@@ -28,11 +30,12 @@ type Event struct {
 	Dates    []string
 }
 
-type HomeModel struct {
-	Artists []ArtistVM
+type HomeViewModel struct {
+	Artists []ArtistViewModel
 }
 
-type ArtistVM struct {
+type ArtistViewModel struct {
+	ID             int
 	Image          string
 	Name           string
 	FirstAlbum     string
@@ -40,7 +43,23 @@ type ArtistVM struct {
 	DatesLocations map[string][]string
 }
 
-func BuildArtistVM(a dal.ArtistDTM) ArtistVM {
+func (a ArtistViewModel) GetNext() int {
+	var result int = (a.ID + 1) % 52
+	if result == 0 {
+		result = 52
+	}
+	return result
+}
+
+func (a ArtistViewModel) GetPrev() int {
+	var result int = (a.ID - 1) % 52
+	if result == 0 {
+		result = 52
+	}
+	return result
+}
+
+func BuildArtistViewModel(a dal.ArtistDTM) ArtistViewModel {
 	var rel dal.RelationDTM
 	var found bool = false
 	for _, r := range relations {
@@ -75,59 +94,70 @@ func BuildArtistVM(a dal.ArtistDTM) ArtistVM {
 		datesLocations[string(titleRunes)] = value
 	}
 
-	cardVM := ArtistVM{Image: a.Image, Name: a.Name, FirstAlbum: a.FirstAlbum, Members: a.Members, DatesLocations: datesLocations}
+	cardVM := ArtistViewModel{ID: a.ID, Image: a.Image, Name: a.Name, FirstAlbum: a.FirstAlbum, Members: a.Members, DatesLocations: datesLocations}
 	return cardVM
 }
 
 func InitArtistPathModelMap(dtms []dal.ArtistDTM) {
-	artistPathModelMap = make(map[string]ArtistVM)
+	artistPathModelMap = make(map[int]ArtistViewModel)
 	for _, artist := range dtms {
-		var model ArtistVM = BuildArtistVM(artist)
+		var model ArtistViewModel = BuildArtistViewModel(artist)
 		artistModels = append(artistModels, model)
-		artistPathModelMap[artist.Name] = model
+		artistPathModelMap[artist.ID] = model
 	}
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	// Verify HTTP method
 	if r.Method != http.MethodGet {
-		log.Printf("%s - %s - %d\n", r.Method, r.URL.Path, http.StatusBadRequest)
+		log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("This site does not support non-GET HTTP requests.\n"))
 		return
 	}
 	// Basic Routing
 	if r.URL.Path == "/" {
-		var p HomeModel = HomeModel{Artists: artistModels}
-		log.Printf("%s - %s - %d\n", r.Method, r.URL.Path, http.StatusOK)
+		var p HomeViewModel = HomeViewModel{Artists: artistModels}
+		log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusOK, http.StatusText(http.StatusOK))
 		t, err := template.ParseFiles("./wwwroot/MainLayout.html")
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Oops! An error occurred! Try refreshing the page."))
 			return
 		}
 		t.Execute(w, p)
 		return
 	}
 	// Routing - Artist Name
-	var name string = strings.TrimPrefix(r.URL.Path, "/")
-	if artistRouteMap[name] {
-		var model ArtistVM = artistPathModelMap[name]
+	var path string = strings.TrimPrefix(r.URL.Path, "/")
+	var id int
+	var err error
+	id, err = strconv.Atoi(path)
+	if err != nil {
+		log.Println(err.Error())
+		http.NotFound(w, r)
+		return
+	}
+	if artistRouteMap[path] {
+		var model ArtistViewModel = artistPathModelMap[id]
 		t, err := template.ParseFiles("./wwwroot/artists.html")
 		if err != nil {
 			log.Println(err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Oops! An error occurred! Try refreshing the page."))
 			return
 		}
 		err = t.Execute(w, model)
 		if err != nil {
 			log.Println(err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
+			// w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Oops! An error occurred! Try refreshing the page."))
 		}
-		log.Printf("%s - %s - %d\n", r.Method, r.URL.Path, http.StatusOK)
+		log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusOK, http.StatusText(http.StatusOK))
 		return
 	}
 	// Print a 404 not found if page does not exist
-	log.Printf("%s - %s - %d\n", r.Method, r.URL.Path, http.StatusNotFound)
+	log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusNotFound, http.StatusText(http.StatusNotFound))
 	http.NotFound(w, r)
 }
 
@@ -148,7 +178,7 @@ func init() {
 	relations = dal.GetRelations(artists)
 	artistRouteMap = make(map[string]bool)
 	for _, v := range artists {
-		artistRouteMap[v.Name] = true
+		artistRouteMap[fmt.Sprintf("%d", v.ID)] = true
 	}
 	InitArtistPathModelMap(artists)
 }
