@@ -107,7 +107,7 @@ func InitArtistPathModelMap(dtms []dal.ArtistDTM) {
 	}
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
+func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	// Verify HTTP method
 	if r.Method != http.MethodGet {
 		log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
@@ -165,7 +165,7 @@ func setupServer() {
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("wwwroot"))
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", fs))
-	mux.HandleFunc("/", homePage)
+	mux.HandleFunc("/", defaultHandler)
 	log.Printf("Server listening on port %s...\n", port)
 	err := http.ListenAndServe(port, mux)
 	if err != nil {
