@@ -17,14 +17,12 @@
         <main>
             <div class="container">
                 {{range .Artists}}
-                <a href="/{{.ID}}">
-                    <div class="card">
+                    <a href="{{.ID}}" class="card clickable">
                         <img class="card-image" src={{.Image}} />
                         <div class="card-title">
                             <h3>{{.Name}}<h3>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 {{end}}
             </div>
         </main>

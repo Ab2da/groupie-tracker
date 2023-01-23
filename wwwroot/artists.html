@@ -18,18 +18,17 @@
         <main>
             <div class="container">
                 <a href="{{.GetPrev}}">
-                    <img src="wwwroot/arrow-left.png" width="256px" height="256px" />
+                    <img src="wwwroot/images/arrow-left.png" width="256px" height="256px" />
                 </a>
-                <a href="{{.ID}}">
-                    <div class="card">
-                        <img class="card-image" src={{.Image}} />
-                        <div class="card-title">
-                            <h3>{{.Name}}</h3>
-                        </div>
+                
+                <div class="card">
+                    <img class="card-image" src={{.Image}} />
+                    <div class="card-title">
+                        <h3>{{.Name}}</h3>
                     </div>
-                </a>
+                </div>
                 <a href="{{.GetNext}}">
-                    <img src="wwwroot/arrow-right.png" width="256px" height="256px" />
+                    <img src="wwwroot/images/arrow-right.png" width="256px" height="256px" />
                 </a>
             </div>
             <div class="container item">
