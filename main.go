@@ -128,7 +128,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, p)
 		return
 	}
-	// Routing - Artist Name
+	// Routing - Artist ID
 	var path string = strings.TrimPrefix(r.URL.Path, "/")
 	var id int
 	var err error
