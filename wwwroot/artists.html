@@ -12,23 +12,32 @@
             <div>
                 <ul class="navbar">
                     <li class="nav-item"><a href="/">Home</a></li>
-                    <li class="nav-item"><a href="/events">Events</a></li>
                 </ul>
             </div>
         </header>
         <main>
             <div class="container">
-                <div class="card">
-                    <img class="card-image" src={{.Image}} />
-                    <div class="card-title">
-                        <h3>{{.Name}}</h3>
+                <a href="{{.Name}}">
+                    <div class="card">
+                        <img class="card-image" src={{.Image}} />
+                        <div class="card-title">
+                            <h3>{{.Name}}</h3>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="container item">
                 <div>
-                    <h3>First Album</h3>
-                    <h1>{{.FirstAlbum}}</h1>
+                    <h3>Tour Dates</h3>
+                    {{range $key, $value := .DatesLocations}}
+                        <div>
+                            <h1>{{$key}}</h1>
+                            {{range $v := $value}}
+                                <h2>{{$v}}</h2>
+                            {{end}}
+                        </div>
+                        <hr />
+                    {{end}}
                 </div>
             </div>
             <div class="container item">
@@ -41,19 +50,10 @@
             </div>
             <div class="container item">
                 <div>
-                    <h3>Tour Dates</h3>
-                    {{range $key, $value := .DatesLocations}}
-                        <div>
-                            <h1>{{$key}}</h1>
-                            {{range $v := $value}}
-                                <h2>{{$v}}</h2>
-                            {{end}}
-                        </div>
-                    {{end}}
+                    <h3>First Album</h3>
+                    <h1>{{.FirstAlbum}}</h1>
                 </div>
-                
             </div>
-            
         </main>
     </body>
 </html>

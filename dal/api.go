@@ -81,21 +81,3 @@ func GetRelations(artists []ArtistDTM) []RelationDTM {
 	}
 	return relations
 }
-
-/*
-1. We create a new map called newMap.
-2. We loop through the locations in the RelationDTM.
-3. We create a new key and value pair in the newMap.
-4. We return the newMap.
-*/
-// func RelationEditor(r RelationDTM) map[string][]string {
-// 	//make a map and for loops to print out the data
-// 	newMap := make(map[string][]string)
-
-// 	for k, v := range r.Locations {
-// 		var k string
-// 		var v string
-// 		newMap[k] = k
-// 	}
-// 	return newMap
-// }
