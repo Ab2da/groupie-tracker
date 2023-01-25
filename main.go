@@ -18,18 +18,6 @@ var artistRouteMap map[string]bool
 var artistPathModelMap map[int]ArtistViewModel
 var artistModels []ArtistViewModel
 
-// var dates []dal.DateDTM
-// structs for the display model
-type Band struct {
-	Image string
-	Name  string
-}
-
-type Event struct {
-	Location string
-	Dates    []string
-}
-
 type HomeViewModel struct {
 	Artists []ArtistViewModel
 }
@@ -138,6 +126,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+
 	if artistRouteMap[path] {
 		var model ArtistViewModel = artistPathModelMap[id]
 		t, err := template.ParseFiles("./wwwroot/artists.html")
@@ -185,14 +174,4 @@ func init() {
 
 func main() {
 	setupServer()
-}
-
-// bridge between the DTM and display model (the structs are a model for your eventual display)
-func ArtistDTMsToBands(artists []dal.ArtistDTM) []Band {
-	var bands []Band
-	for _, artist := range artists {
-		var b Band = Band{Name: artist.Name, Image: artist.Image}
-		bands = append(bands, b)
-	}
-	return bands
 }

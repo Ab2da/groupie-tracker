@@ -18,7 +18,7 @@
             <div class="container">
                 {{range .Artists}}
                     <a href="{{.ID}}" class="card clickable">
-                        <img class="card-image" src={{.Image}} />
+                        <img class="card-image" src={{.Image}} alt="Album art of {{.Name}}" title="Album art of {{.Name}}" />
                         <div class="card-title">
                             <h3>{{.Name}}<h3>
                         </div>

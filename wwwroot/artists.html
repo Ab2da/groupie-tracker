@@ -34,6 +34,12 @@
             <div class="container item">
                 <div>
                     <h3>Tour Dates</h3>
+                    <!-- for key, value := range artist.DatesLocations {
+                        fmt.Println(key)
+                        for _, v := range value {
+                            fmt.Println(v)
+                        }
+                    } -->
                     {{range $key, $value := .DatesLocations}}
                         <div>
                             <h1>{{$key}}</h1>
