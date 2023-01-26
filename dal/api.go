@@ -52,7 +52,7 @@ func getData(url string, ptr any) any {
 // objects, which can then be taken by the UI (front-end)
 // for display purposes
 
-func GetArtists() []ArtistDTM {
+func GetArtistDTMs() []ArtistDTM {
 	var artists []ArtistDTM
 	var url string = baseUrl + artistsEndpoint
 	getData(url, &artists)
@@ -60,7 +60,7 @@ func GetArtists() []ArtistDTM {
 
 }
 
-func GetRelations(artists []ArtistDTM) []RelationDTM {
+func GetRelationDTMs(artists []ArtistDTM) []RelationDTM {
 	var relations []RelationDTM
 	for _, v := range artists {
 		var url string = v.Relations
