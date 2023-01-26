@@ -167,6 +167,7 @@ func init() {
 	relations = dal.GetRelations(artists)
 	artistRouteMap = make(map[string]bool)
 	for _, v := range artists {
+		//every other ID is set to false  i.d = 1000: false
 		artistRouteMap[fmt.Sprintf("%d", v.ID)] = true
 	}
 	InitArtistPathModelMap(artists)
