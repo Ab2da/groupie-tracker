@@ -61,7 +61,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 
 	if ArtistRouteMap[path] {
 		var model ArtistViewModel = ArtistPathModelMap[id]
-		t, err := template.ParseFiles("./wwwroot/ArtistDTMs.html")
+		t, err := template.ParseFiles("./wwwroot/artists.html")
 		if err != nil {
 			log.Println(err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
