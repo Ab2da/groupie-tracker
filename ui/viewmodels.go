@@ -5,7 +5,6 @@ import (
 	"log"
 )
 
-var ArtistPathModelMap map[int]ArtistViewModel
 var ArtistViewModels []ArtistViewModel
 
 func InitArtistPathModelMap(dtms []dal.ArtistDTM) {

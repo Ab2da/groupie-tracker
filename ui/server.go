@@ -15,6 +15,7 @@ const port string = ":8080"
 var ArtistDTMs []dal.ArtistDTM
 var RelationDTMs []dal.RelationDTM
 var ArtistRouteMap map[string]bool
+var ArtistPathModelMap map[int]ArtistViewModel
 
 func init() {
 	ArtistDTMs = dal.GetArtistDTMs()
