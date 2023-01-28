@@ -38,6 +38,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	// Basic Routing
 	if r.URL.Path == "/" {
+		//saved struct into a variable, in order to Execute.
 		var p HomeViewModel = HomeViewModel{Artists: ArtistViewModels}
 		log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusOK, http.StatusText(http.StatusOK))
 		t, err := template.ParseFiles("./wwwroot/MainLayout.html")
@@ -46,7 +47,11 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Oops! An error occurred! Try refreshing the page."))
 			return
 		}
-		t.Execute(w, p)
+		err = t.Execute(w, p)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Oops! An error occurred! Try refreshing the page."))
+		}
 		return
 	}
 	// Routing - Artist ID
@@ -55,7 +60,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 	id, err = strconv.Atoi(path)
 	if err != nil {
-		log.Println(err.Error())
+		log.Printf("%s - %s - %d %s\n", r.Method, r.URL.Path, http.StatusNotFound, http.StatusText(http.StatusNotFound))
 		http.NotFound(w, r)
 		return
 	}
