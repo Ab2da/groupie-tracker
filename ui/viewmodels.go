@@ -2,6 +2,7 @@ package ui
 
 import (
 	"deedee/groupie-tracker/dal"
+	"errors"
 	"log"
 )
 
@@ -10,9 +11,12 @@ var ArtistViewModels []ArtistViewModel
 func InitArtistPathModelMap(dtms []dal.ArtistDTM) {
 	ArtistPathModelMap = make(map[int]ArtistViewModel)
 	for _, artist := range dtms {
-		var model ArtistViewModel = BuildArtistViewModel(artist)
-		ArtistViewModels = append(ArtistViewModels, model)
-		ArtistPathModelMap[artist.ID] = model
+		viewModel, err := BuildArtistViewModel(artist)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		ArtistViewModels = append(ArtistViewModels, viewModel)
+		ArtistPathModelMap[artist.ID] = viewModel
 	}
 }
 
@@ -45,7 +49,7 @@ func (a ArtistViewModel) GetPrev() int {
 	return result
 }
 
-func BuildArtistViewModel(a dal.ArtistDTM) ArtistViewModel {
+func BuildArtistViewModel(a dal.ArtistDTM) (ArtistViewModel, error) {
 	var rel dal.RelationDTM
 	var found bool = false
 	for _, r := range RelationDTMs {
@@ -56,7 +60,7 @@ func BuildArtistViewModel(a dal.ArtistDTM) ArtistViewModel {
 		}
 	}
 	if !found {
-		log.Fatal("artist relation not found")
+		return ArtistViewModel{}, errors.New("relation does not exist")
 	}
 	var datesLocations map[string][]string = make(map[string][]string)
 	for key, value := range rel.DatesLocations {
@@ -81,5 +85,5 @@ func BuildArtistViewModel(a dal.ArtistDTM) ArtistViewModel {
 	}
 
 	var viewModel ArtistViewModel = ArtistViewModel{ID: a.ID, Image: a.Image, Name: a.Name, FirstAlbum: a.FirstAlbum, Members: a.Members, DatesLocations: datesLocations}
-	return viewModel
+	return viewModel, nil
 }
