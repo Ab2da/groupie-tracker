@@ -8,15 +8,26 @@ import (
 
 var ArtistViewModels []ArtistViewModel
 
-func InitArtistPathModelMap(dtms []dal.ArtistDTM) {
-	ArtistPathModelMap = make(map[int]ArtistViewModel)
+// Initialise a map that stores each entry with a
+// key of the ID of an Artist, and a
+// value of the corresponding ArtistViewModel
+func InitIDToViewModelMap(dtms []dal.ArtistDTM) {
+	// Make the map (in memory)
+	ArtistIDToViewModelMap = make(map[int]ArtistViewModel)
+	// Range over each ArtistDTM
 	for _, artist := range dtms {
+		// Build an ArtistViewModel, with relations data,
+		// from an ArtistDTM
 		viewModel, err := BuildArtistViewModel(artist)
+		// If there was a problem with building an ArtistViewModel,
+		// log the error and stop the program
 		if err != nil {
 			log.Fatal(err.Error())
 		}
+		// Add the individual view model to the slice: ArtistViewModels
 		ArtistViewModels = append(ArtistViewModels, viewModel)
-		ArtistPathModelMap[artist.ID] = viewModel
+		//initalizing our map, setting key:ID, value:ArtistViewModel
+		ArtistIDToViewModelMap[artist.ID] = viewModel
 	}
 }
 
@@ -30,9 +41,13 @@ type ArtistViewModel struct {
 	Name           string
 	FirstAlbum     string
 	Members        []string
+	CreationDate   int
 	DatesLocations map[string][]string
 }
 
+// GetNext function is a method of the ArtistViewModel struct
+// Therefore, only an ArtistViewModel variable can call this function
+// -> GetNext is now a method of the ArtistViewModel type
 func (a ArtistViewModel) GetNext() int {
 	var result int = (a.ID + 1) % 52
 	if result == 0 {
@@ -84,6 +99,6 @@ func BuildArtistViewModel(a dal.ArtistDTM) (ArtistViewModel, error) {
 		datesLocations[string(titleRunes)] = value
 	}
 
-	var viewModel ArtistViewModel = ArtistViewModel{ID: a.ID, Image: a.Image, Name: a.Name, FirstAlbum: a.FirstAlbum, Members: a.Members, DatesLocations: datesLocations}
+	var viewModel ArtistViewModel = ArtistViewModel{ID: a.ID, Image: a.Image, Name: a.Name, FirstAlbum: a.FirstAlbum, Members: a.Members, CreationDate: a.CreationDate, DatesLocations: datesLocations}
 	return viewModel, nil
 }
